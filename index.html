@@ -1247,8 +1247,10 @@
     .swatch:hover { transform: scale(1.15); }
     .swatch[aria-pressed="true"] { box-shadow: 0 0 0 2px var(--heading); }
 
+    /* The hearts and effects are the whole point of this page, so they always play.
+       With "reduce motion" on, only the big background drift is calmed down. */
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      :root[data-theme="rose"] body::after { animation: none; }
     }
   </style>
 </head>
