@@ -561,6 +561,162 @@
       100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.2); opacity: 0; }
     }
 
+    /* ---------- Navbar ---------- */
+    .navbar {
+      position: fixed;
+      z-index: 900;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: color-mix(in srgb, var(--bg-card) 86%, transparent);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    body.entered .navbar { opacity: 1; pointer-events: auto; }
+    body.modal-open .navbar { opacity: 0; pointer-events: none; }
+
+    .nav-brand {
+      font-family: 'Great Vibes', cursive;
+      font-size: 1.6rem;
+      color: var(--main-deep);
+      padding: 0 12px 0 10px;
+      line-height: 1;
+    }
+
+    .nav-item {
+      appearance: none;
+      border: none;
+      background: transparent;
+      font: inherit;
+      color: var(--text-muted);
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: background-color 0.25s ease, color 0.25s ease, transform 0.2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-item:hover, .nav-item:focus-visible { color: var(--heading); outline: none; }
+    .nav-item.active {
+      color: var(--heading);
+      background: color-mix(in srgb, var(--main-light) 45%, transparent);
+    }
+    .nav-item:active { transform: scale(0.94); }
+    .nav-ico { font-size: 1.05rem; line-height: 1; }
+    .nav-item.is-hot .nav-ico { animation: heartbeat 1.6s ease-in-out infinite; display: inline-block; }
+
+    /* desktop / tablet: floating pill on top */
+    @media (min-width: 641px) {
+      .navbar {
+        top: max(14px, env(safe-area-inset-top));
+        left: 50%;
+        transform: translate(-50%, -10px);
+        padding: 6px;
+        border-radius: 999px;
+      }
+      body.entered .navbar { transform: translate(-50%, 0); }
+      body { padding-top: max(110px, calc(env(safe-area-inset-top) + 96px)); }
+    }
+
+    /* phones: bottom tab bar, like an iPhone app */
+    @media (max-width: 640px) {
+      .navbar {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        justify-content: space-around;
+        padding: 6px max(6px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+        border-radius: 22px 22px 0 0;
+        border-bottom: none;
+        transform: translateY(20px);
+      }
+      body.entered .navbar { transform: none; }
+      .nav-brand { display: none; }
+      .nav-item {
+        flex-direction: column;
+        gap: 3px;
+        padding: 6px 4px;
+        min-width: 58px;
+        border-radius: 14px;
+        font-size: 0.66rem;
+        letter-spacing: 0.02em;
+      }
+      .nav-ico { font-size: 1.3rem; }
+      body { padding-bottom: max(120px, calc(env(safe-area-inset-bottom) + 110px)); }
+      body .toast { bottom: calc(92px + env(safe-area-inset-bottom)); }
+    }
+
+    #lettersGrid, #reasons, #countdown, #play { scroll-margin-top: 110px; }
+    @media (max-width: 640px) {
+      #lettersGrid, #reasons, #countdown, #play { scroll-margin-top: 24px; }
+    }
+
+    /* ---------- Reasons ---------- */
+    .reason-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 4vw, 1.3rem);
+      line-height: 1.6;
+      color: var(--heading);
+      min-height: 5.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 6px 0 18px;
+    }
+    .reason-text.swap { animation: reasonIn 0.6s ease both; }
+    @keyframes reasonIn {
+      0%   { opacity: 0; transform: translateY(10px) scale(0.97); filter: blur(4px); }
+      100% { opacity: 1; transform: none; filter: blur(0); }
+    }
+
+    /* ---------- Countdown ---------- */
+    .cd-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin: 8px 0 16px;
+    }
+    .cd-grid[hidden] { display: none; }
+    .cd-box {
+      background: color-mix(in srgb, var(--blush) 55%, var(--bg-card));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px 4px 10px;
+    }
+    .cd-num {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      font-weight: 600;
+      color: var(--main-deep);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums;
+    }
+    .cd-lbl {
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .cd-heart {
+      font-size: 3rem;
+      line-height: 1;
+      color: var(--main);
+      animation: heartbeat 1.4s ease-in-out infinite;
+      margin: 6px 0 12px;
+    }
+
     /* ---------- Mini game ---------- */
     .game-cta {
       position: relative;
@@ -1265,6 +1421,15 @@
     <p class="intro-hint">Tap the heart</p>
   </div>
 
+  <nav class="navbar" id="navbar" aria-label="Sections">
+    <span class="nav-brand" id="navBrand">Sia ♥</span>
+    <a href="#lettersGrid" class="nav-item active" data-target="lettersGrid"><span class="nav-ico">💌</span><span class="nav-lbl">Letters</span></a>
+    <a href="#reasons" class="nav-item" data-target="reasons"><span class="nav-ico">💗</span><span class="nav-lbl">Reasons</span></a>
+    <a href="#countdown" class="nav-item" data-target="countdown"><span class="nav-ico">⏳</span><span class="nav-lbl">Countdown</span></a>
+    <a href="#play" class="nav-item" data-target="play"><span class="nav-ico">🎮</span><span class="nav-lbl">Game</span></a>
+    <button type="button" class="nav-item is-hot" id="navSurprise"><span class="nav-ico">🔥</span><span class="nav-lbl">Surprise</span></button>
+  </nav>
+
   <header>
     <p class="eyebrow">A little love, every day</p>
     <h1>Letters for <em id="herName">Sia</em></h1>
@@ -1275,7 +1440,28 @@
 
   <main class="grid" id="lettersGrid" aria-label="Love letters"></main>
 
-  <section class="game-cta" aria-label="Mini game">
+  <section class="game-cta" id="reasons" aria-label="Reasons I love you">
+    <p class="game-cta-eyebrow">Reasons I love you</p>
+    <h2 class="game-cta-title">Why you, Sia?</h2>
+    <p class="reason-text" id="reasonText">Tap the button and I'll tell you. I have a lot to say.</p>
+    <button type="button" class="game-cta-btn" id="reasonBtn">Tell me why ♥</button>
+    <p class="game-cta-best" id="reasonCount"></p>
+  </section>
+
+  <section class="game-cta" id="countdown" aria-label="Countdown">
+    <p class="game-cta-eyebrow">Until I finally hold you</p>
+    <h2 class="game-cta-title">Countdown</h2>
+    <div class="cd-grid" id="cdGrid" hidden>
+      <div class="cd-box"><span class="cd-num" id="cdDays">0</span><span class="cd-lbl">days</span></div>
+      <div class="cd-box"><span class="cd-num" id="cdHours">0</span><span class="cd-lbl">hours</span></div>
+      <div class="cd-box"><span class="cd-num" id="cdMins">0</span><span class="cd-lbl">min</span></div>
+      <div class="cd-box"><span class="cd-num" id="cdSecs">0</span><span class="cd-lbl">sec</span></div>
+    </div>
+    <div class="cd-heart" id="cdHeart" aria-hidden="true">♥</div>
+    <p class="game-cta-text" id="cdNote"></p>
+  </section>
+
+  <section class="game-cta" id="play" aria-label="Mini game">
     <p class="game-cta-eyebrow">A little game for you</p>
     <h2 class="game-cta-title">Catch my heart</h2>
     <p class="game-cta-text">Catch 15 hearts in 30 seconds. Kisses count double. Whatever you do… don't grab the milk. 🥛</p>
@@ -1364,6 +1550,10 @@
         theme: 'rose',
         // Little color switcher in the corner. Set false before sending it to her.
         showThemePicker: false,
+
+        // The day you finally meet, for the Countdown section.
+        // 'YYYY-MM-DD' or 'YYYY-MM-DDTHH:MM' (her local time). Leave null until you know.
+        meetDate: null,
 
         storageKey: 'love-letters-read-v2'
       };
@@ -2324,6 +2514,151 @@
         if (e.target.closest('.replay')) showFinale();
       });
 
+      /* =========================================================
+         Navbar
+         ========================================================= */
+      var navItems = Array.prototype.slice.call(document.querySelectorAll('.nav-item[data-target]'));
+
+      function setActive(id) {
+        navItems.forEach(function (a) {
+          a.classList.toggle('active', a.getAttribute('data-target') === id);
+        });
+      }
+
+      navItems.forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          var id = a.getAttribute('data-target');
+          setActive(id);
+          if (id === 'lettersGrid') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          } else {
+            var target = $(id);
+            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      if ('IntersectionObserver' in window) {
+        var sectionObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) { if (en.isIntersecting) setActive(en.target.id); });
+        }, { rootMargin: '-45% 0px -45% 0px' });
+        ['lettersGrid', 'reasons', 'countdown', 'play'].forEach(function (id) {
+          var n = $(id);
+          if (n) sectionObserver.observe(n);
+        });
+      }
+
+      $('navSurprise').addEventListener('click', function () {
+        var left = LETTERS.length - readCount();
+        if (left > 0) {
+          toast('Open ' + left + ' more letter' + (left === 1 ? '' : 's') + ' first, naughty babe 😏');
+        } else {
+          showFinale();
+        }
+      });
+
+      /* =========================================================
+         Reasons I love you — shuffled, no repeats until all shown
+         ========================================================= */
+      var REASONS = [
+        "Because you're the most gentle soul I've ever met, and you make me want to be gentler too.",
+        "Because your eyes can't decide between blue and green, and I can't decide how to stop staring.",
+        "Because when you told me what \"I love you\" means to you, I realized we speak the same language.",
+        "Because you care about my happiness like it's your own.",
+        "Because you're honest about your fears, even when it's hard. That takes so much courage.",
+        "Because one message from you can turn my whole day around.",
+        "Because you put a little ♡ at the end of your words, and it gets me every single time.",
+        "Because you get flustered at work because of me. And I love that power. 😏",
+        "Because we're simps of each other, and neither of us is even trying to hide it.",
+        "Because you wear a lot of dresses. Sorry, I had to. 😇",
+        "Because you make me feel seen, appreciated and cherished. Exactly what you said love should be.",
+        "Because you laugh at my jokes, even the bad ones.",
+        "Because you call me Getha in a way nobody else ever has.",
+        "Because you're my purple mommie, and that's not up for debate.",
+        "Because you let me take care of you, and that's a gift.",
+        "Because you're strong, even on the days you don't feel like it.",
+        "Because your voice notes are my favorite sound in the world.",
+        "Because talking to you feels like coming home.",
+        "Because you're a little naughty and a lot sweet. The perfect combination.",
+        "Because you believe in us, even across all these miles.",
+        "Because you deserve to be loved loudly, and I want to be the one doing it.",
+        "Because the way you love is soft, deep and real.",
+        "Because I can be completely myself with you.",
+        "Because every time I think I can't love you more, you prove me wrong.",
+        "Because you're you. And that will always be enough. ♥"
+      ];
+      var reasonDeck = [];
+      var reasonShown = 0;
+
+      function nextReason() {
+        if (!reasonDeck.length) {
+          reasonDeck = REASONS.map(function (_, i) { return i; });
+          for (var i = reasonDeck.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var t = reasonDeck[i]; reasonDeck[i] = reasonDeck[j]; reasonDeck[j] = t;
+          }
+        }
+        return REASONS[reasonDeck.pop()];
+      }
+
+      $('reasonBtn').addEventListener('click', function (e) {
+        var t = $('reasonText');
+        t.classList.remove('swap');
+        void t.offsetWidth;
+        t.textContent = nextReason();
+        t.classList.add('swap');
+        reasonShown++;
+        $('reasonCount').textContent = 'Reason ' + (((reasonShown - 1) % REASONS.length) + 1) + ' of ' + REASONS.length + ' · and counting';
+        e.currentTarget.textContent = 'Another one ♥';
+        var r = e.currentTarget.getBoundingClientRect();
+        heartBurst(r.left + r.width / 2, r.top + r.height / 2);
+      });
+
+      /* =========================================================
+         Countdown to the day you meet
+         ========================================================= */
+      function parseMeet(str) {
+        if (!str) return null;
+        str = String(str);
+        var d = new Date(str.length <= 10 ? str + 'T00:00:00' : str);
+        return isNaN(d.getTime()) ? null : d;
+      }
+      function pad2(n) { return n < 10 ? '0' + n : String(n); }
+
+      var meetAt = parseMeet(CONFIG.meetDate);
+      var cdTimer = null;
+
+      function tickCountdown() {
+        if (!meetAt) {
+          $('cdGrid').hidden = true;
+          $('cdHeart').hidden = false;
+          $('cdNote').textContent = "We don't have a date yet… but every single day brings me closer to you. The moment we do, this clock starts ticking. 💌";
+          return;
+        }
+        var diff = meetAt.getTime() - Date.now();
+        if (diff <= 0) {
+          $('cdGrid').hidden = true;
+          $('cdHeart').hidden = false;
+          $('cdNote').textContent = "Today's the day. No more countdown. Come here. 🔥";
+          clearInterval(cdTimer);
+          return;
+        }
+        $('cdGrid').hidden = false;
+        $('cdHeart').hidden = true;
+        var s = Math.floor(diff / 1000);
+        $('cdDays').textContent = Math.floor(s / 86400);
+        $('cdHours').textContent = pad2(Math.floor((s % 86400) / 3600));
+        $('cdMins').textContent = pad2(Math.floor((s % 3600) / 60));
+        $('cdSecs').textContent = pad2(s % 60);
+        $('cdNote').textContent = 'Every second on this clock is one second closer to my arms. ♥';
+      }
+
+      tickCountdown();
+      if (meetAt) cdTimer = setInterval(tickCountdown, 1000);
+
+      $('navBrand').textContent = CONFIG.herName + ' ♥';
+
       el.grid.addEventListener('click', function (e) {
         var card = e.target.closest('.envelope');
         if (!card) return;
@@ -2405,6 +2740,7 @@
         heartShower(36);
         setTimeout(function () {
           intro.classList.add('hide');
+          document.body.classList.add('entered');
           renderGrid(); // replay the envelope entrance animation
           startAmbient();
 
@@ -2456,7 +2792,7 @@
       /* ---------- Little hearts wherever she taps ---------- */
       document.addEventListener('pointerdown', function (e) {
         if (!intro.classList.contains('hide')) return;
-        if (e.target.closest('.envelope, button, .theme-picker, .game, .finale')) return;
+        if (e.target.closest('.envelope, button, a, .navbar, .theme-picker, .game, .finale')) return;
         heartBurst(e.clientX, e.clientY);
       });
 
