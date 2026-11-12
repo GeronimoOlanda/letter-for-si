@@ -661,6 +661,257 @@
       #lettersGrid, #reasons, #countdown, #play { scroll-margin-top: 24px; }
     }
 
+    /* ---------- "More" sheet ---------- */
+    .more-sheet {
+      position: fixed;
+      z-index: 901;
+      left: 50%;
+      width: min(420px, calc(100% - 24px));
+      padding: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 20px 50px color-mix(in srgb, var(--heading) 20%, transparent);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      opacity: 0;
+      visibility: hidden;
+      transform: translate(-50%, 12px) scale(0.97);
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+    }
+    .more-sheet.open { opacity: 1; visibility: visible; transform: translate(-50%, 0) scale(1); }
+    body.modal-open .more-sheet { display: none; }
+    @media (min-width: 641px) { .more-sheet { top: calc(max(14px, env(safe-area-inset-top)) + 64px); } }
+    @media (max-width: 640px) { .more-sheet { bottom: calc(env(safe-area-inset-bottom) + 84px); } }
+    .more-item {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: color-mix(in srgb, var(--blush) 30%, var(--bg-card));
+      color: var(--heading);
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: left;
+      padding: 12px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.15s ease, border-color 0.2s ease;
+    }
+    .more-item:hover, .more-item:focus-visible { border-color: var(--main); outline: none; }
+    .more-item:active { transform: scale(0.97); }
+    .more-item span:first-child { font-size: 1.25rem; }
+    .more-item[hidden] { display: none; }
+
+    .letter-nav[hidden] { display: none; }
+
+    /* wider cards for grids */
+    .game-cta.wide { max-width: 860px; }
+    .section-sub { color: var(--text-muted); font-weight: 300; line-height: 1.6; margin-bottom: 18px; }
+
+    /* ---------- Today's note ---------- */
+    .today-card {
+      position: relative;
+      z-index: 1;
+      max-width: 640px;
+      margin: 0 auto 34px;
+      padding: 18px 22px;
+      text-align: center;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--blush) 60%, var(--bg-card)), var(--bg-card));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .today-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--main-deep);
+      margin-bottom: 6px;
+    }
+    .today-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: var(--heading);
+    }
+
+    /* ---------- Open when… ---------- */
+    .ow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      text-align: left;
+    }
+    @media (max-width: 420px) { .ow-grid { grid-template-columns: 1fr 1fr; gap: 10px; } }
+    .ow-card {
+      appearance: none;
+      position: relative;
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, color-mix(in srgb, var(--blush) 55%, var(--bg-card)), var(--bg-card) 70%);
+      border-radius: 16px;
+      padding: 16px 14px;
+      font: inherit;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .ow-card:hover, .ow-card:focus-visible { transform: translateY(-4px); border-color: var(--main); outline: none; }
+    .ow-card:active { transform: scale(0.97); }
+    .ow-emoji { font-size: 1.7rem; line-height: 1; display: block; margin-bottom: 10px; }
+    .ow-label { display: block; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); }
+    .ow-title { display: block; font-family: 'Playfair Display', serif; font-size: 1.02rem; color: var(--heading); margin-top: 2px; line-height: 1.3; }
+    .ow-card.opened::after {
+      content: 'opened ♥';
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+      color: var(--main-deep);
+      opacity: 0.8;
+    }
+
+    /* ---------- Scratch card ---------- */
+    .scratch-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      height: 180px;
+      margin: 0 auto 16px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, var(--bg-card), color-mix(in srgb, var(--blush) 50%, var(--bg-card)));
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .scratch-msg {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px 22px;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.08rem;
+      line-height: 1.55;
+      color: var(--heading);
+    }
+    .scratch-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      touch-action: none;
+      cursor: grab;
+      transition: opacity 0.7s ease;
+    }
+    .scratch-wrap.revealed .scratch-canvas { opacity: 0; pointer-events: none; }
+    .scratch-again[hidden] { display: none; }
+
+    /* ---------- Love coupons ---------- */
+    .coupon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 14px;
+      text-align: left;
+    }
+    .coupon {
+      position: relative;
+      overflow: hidden;
+      padding: 18px 18px 16px;
+      border-radius: 16px;
+      border: 2px dashed color-mix(in srgb, var(--main) 55%, transparent);
+      background: var(--bg-card);
+    }
+    .coupon::before, .coupon::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px dashed color-mix(in srgb, var(--main) 55%, transparent);
+      transform: translateY(-50%);
+    }
+    .coupon::before { left: -11px; }
+    .coupon::after { right: -11px; }
+    .coupon-emoji { font-size: 1.6rem; line-height: 1; }
+    .coupon-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--heading); margin: 8px 0 4px; }
+    .coupon-desc { font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px; }
+    .coupon-btn {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 9px 18px;
+      font: inherit;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, var(--flap), var(--main-deep));
+      cursor: pointer;
+    }
+    .coupon-btn:active { transform: scale(0.96); }
+    .coupon-stamp {
+      position: absolute;
+      top: 16px;
+      right: 14px;
+      padding: 4px 10px;
+      border: 2px solid #D61F52;
+      border-radius: 8px;
+      color: #D61F52;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transform: rotate(12deg);
+      opacity: 0.85;
+    }
+    .coupon.redeemed .coupon-stamp { animation: stampIn 0.5s cubic-bezier(0.2, 1.6, 0.4, 1) both; }
+    @keyframes stampIn {
+      0%   { transform: rotate(12deg) scale(2.2); opacity: 0; }
+      100% { transform: rotate(12deg) scale(1); opacity: 0.85; }
+    }
+    .coupon.redeemed .coupon-btn { background: transparent; color: var(--main-deep); border: 1px solid var(--border); }
+
+    /* ---------- First date list ---------- */
+    .date-list { list-style: none; text-align: left; margin: 0 auto 14px; max-width: 440px; }
+    .date-list li + li { border-top: 1px solid var(--border); }
+    .date-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 4px;
+      cursor: pointer;
+      color: var(--text-main);
+      line-height: 1.45;
+    }
+    .date-item input {
+      appearance: none;
+      -webkit-appearance: none;
+      flex: 0 0 24px;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      border: 2px solid var(--main-light);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+    .date-item input::after { content: '♥'; font-size: 0.8rem; color: #FFFFFF; transform: scale(0); transition: transform 0.25s cubic-bezier(0.2, 1.6, 0.4, 1); }
+    .date-item input:checked { background: var(--main); border-color: var(--main); }
+    .date-item input:checked::after { transform: scale(1); }
+    .date-item input:focus-visible { outline: 2px solid var(--main-deep); outline-offset: 2px; }
+    .date-item input:checked + span { color: var(--text-muted); }
+
     /* ---------- Reasons ---------- */
     .reason-text {
       font-family: 'Playfair Display', serif;
@@ -1424,11 +1675,20 @@
   <nav class="navbar" id="navbar" aria-label="Sections">
     <span class="nav-brand" id="navBrand">Sia ♥</span>
     <a href="#lettersGrid" class="nav-item active" data-target="lettersGrid"><span class="nav-ico">💌</span><span class="nav-lbl">Letters</span></a>
-    <a href="#reasons" class="nav-item" data-target="reasons"><span class="nav-ico">💗</span><span class="nav-lbl">Reasons</span></a>
-    <a href="#countdown" class="nav-item" data-target="countdown"><span class="nav-ico">⏳</span><span class="nav-lbl">Countdown</span></a>
+    <a href="#openWhen" class="nav-item" data-target="openWhen"><span class="nav-ico">✉️</span><span class="nav-lbl">Open when</span></a>
     <a href="#play" class="nav-item" data-target="play"><span class="nav-ico">🎮</span><span class="nav-lbl">Game</span></a>
     <button type="button" class="nav-item is-hot" id="navSurprise"><span class="nav-ico">🔥</span><span class="nav-lbl">Surprise</span></button>
+    <button type="button" class="nav-item" id="navMore" aria-haspopup="true" aria-expanded="false" aria-controls="moreSheet"><span class="nav-ico">✨</span><span class="nav-lbl">More</span></button>
   </nav>
+
+  <div class="more-sheet" id="moreSheet" role="menu" aria-label="More">
+    <button type="button" class="more-item" data-goto="today" role="menuitem"><span>☀️</span><span>Today's note</span></button>
+    <button type="button" class="more-item" data-goto="scratch" role="menuitem"><span>🪙</span><span>Scratch card</span></button>
+    <button type="button" class="more-item" data-goto="coupons" role="menuitem"><span>🎟️</span><span>Love coupons</span></button>
+    <button type="button" class="more-item" data-goto="reasons" role="menuitem"><span>💗</span><span>Reasons</span></button>
+    <button type="button" class="more-item" data-goto="dateList" role="menuitem"><span>📝</span><span>First date list</span></button>
+    <button type="button" class="more-item" data-goto="countdown" role="menuitem"><span>⏳</span><span>Countdown</span></button>
+  </div>
 
   <header>
     <p class="eyebrow">A little love, every day</p>
@@ -1438,7 +1698,37 @@
     <p class="progress" id="progress"></p>
   </header>
 
+  <section class="today-card" id="today" aria-label="Today's note">
+    <p class="today-label" id="todayLabel">Today's note</p>
+    <p class="today-text" id="todayText"></p>
+  </section>
+
   <main class="grid" id="lettersGrid" aria-label="Love letters"></main>
+
+  <section class="game-cta wide" id="openWhen" aria-label="Open when">
+    <p class="game-cta-eyebrow">For the moments you need me</p>
+    <h2 class="game-cta-title">Open when…</h2>
+    <p class="section-sub">No order here. Open the one that fits how you feel, whenever you need it.</p>
+    <div class="ow-grid" id="owGrid"></div>
+  </section>
+
+  <section class="game-cta" id="scratch" aria-label="Scratch card">
+    <p class="game-cta-eyebrow">Feeling lucky?</p>
+    <h2 class="game-cta-title">Scratch card</h2>
+    <p class="section-sub">Scratch it with your finger to see what you won.</p>
+    <div class="scratch-wrap" id="scratchWrap">
+      <p class="scratch-msg" id="scratchMsg"></p>
+      <canvas class="scratch-canvas" id="scratchCanvas" aria-label="Scratch area"></canvas>
+    </div>
+    <button type="button" class="game-cta-btn scratch-again" id="scratchAgain" hidden>New card ♥</button>
+  </section>
+
+  <section class="game-cta wide" id="coupons" aria-label="Love coupons">
+    <p class="game-cta-eyebrow">Valid forever · No expiration</p>
+    <h2 class="game-cta-title">Love coupons</h2>
+    <p class="section-sub">Tap redeem, and I'll copy the coupon for you. Then just send it to me. I always pay my debts. 😏</p>
+    <div class="coupon-grid" id="couponGrid"></div>
+  </section>
 
   <section class="game-cta" id="reasons" aria-label="Reasons I love you">
     <p class="game-cta-eyebrow">Reasons I love you</p>
@@ -1446,6 +1736,14 @@
     <p class="reason-text" id="reasonText">Tap the button and I'll tell you. I have a lot to say.</p>
     <button type="button" class="game-cta-btn" id="reasonBtn">Tell me why ♥</button>
     <p class="game-cta-best" id="reasonCount"></p>
+  </section>
+
+  <section class="game-cta" id="dateList" aria-label="First date list">
+    <p class="game-cta-eyebrow">When we finally meet</p>
+    <h2 class="game-cta-title">Our first date list</h2>
+    <p class="section-sub">Check them off as we do them. I'm planning on doing all of them. More than once.</p>
+    <ul class="date-list" id="dateListItems"></ul>
+    <p class="game-cta-best" id="dateProgress"></p>
   </section>
 
   <section class="game-cta" id="countdown" aria-label="Countdown">
@@ -1794,6 +2092,7 @@
 
         // the last letter always carries the button to the finale
         $('surpriseBtn').hidden = i !== LETTERS.length - 1;
+        letterNav.hidden = false;
 
         el.prev.disabled = i <= 0;
         el.next.disabled = i >= LETTERS.length - 1 || !isUnlocked(i + 1);
@@ -1857,7 +2156,30 @@
         }
       }
 
+      // Opens a note that isn't one of the numbered letters (Open when…)
+      function openNote(note, label) {
+        lastFocused = document.activeElement;
+        currentIndex = -1;
+        el.day.textContent = label;
+        el.title.textContent = note.title;
+        el.body.textContent = note.content;
+        el.body.scrollTop = 0;
+        el.sign.textContent = '— ' + CONFIG.signature;
+        $('surpriseBtn').hidden = true;
+        letterNav.hidden = true;
+        el.modal.setAttribute('data-effect', note.effect || 'hearts');
+        letterCard.classList.remove('fx-in');
+        void letterCard.offsetWidth;
+        letterCard.classList.add('fx-in');
+        el.modal.classList.add('active');
+        el.modal.setAttribute('aria-hidden', 'false');
+        lockScroll();
+        playEffect(note.effect, false);
+        setTimeout(function () { el.close.focus({ preventScroll: true }); }, 50);
+      }
+
       function step(dir) {
+        if (currentIndex < 0) return;
         var target = currentIndex + dir;
         if (target < 0 || target >= LETTERS.length || !isUnlocked(target)) return;
         fillLetter(target);
@@ -1868,6 +2190,7 @@
          Special effects — one per letter (default: hearts)
          ========================================================= */
       var letterCard = el.modal.querySelector('.letter');
+      var letterNav = el.modal.querySelector('.letter-nav');
 
       function fxNode(cls, text) {
         var n = document.createElement('span');
@@ -2519,31 +2842,64 @@
          ========================================================= */
       var navItems = Array.prototype.slice.call(document.querySelectorAll('.nav-item[data-target]'));
 
+      var navMore = $('navMore');
+      var moreSheet = $('moreSheet');
+      var MAIN_TARGETS = ['lettersGrid', 'openWhen', 'play'];
+      var MORE_TARGETS = ['today', 'scratch', 'coupons', 'reasons', 'dateList', 'countdown'];
+
       function setActive(id) {
+        var inMore = MORE_TARGETS.indexOf(id) !== -1;
         navItems.forEach(function (a) {
-          a.classList.toggle('active', a.getAttribute('data-target') === id);
+          a.classList.toggle('active', !inMore && a.getAttribute('data-target') === id);
         });
+        navMore.classList.toggle('active', inMore);
+      }
+
+      function goTo(id) {
+        setActive(id);
+        if (id === 'lettersGrid') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          var target = $(id);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      function toggleMore(open) {
+        var willOpen = typeof open === 'boolean' ? open : !moreSheet.classList.contains('open');
+        moreSheet.classList.toggle('open', willOpen);
+        navMore.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
       }
 
       navItems.forEach(function (a) {
         a.addEventListener('click', function (e) {
           e.preventDefault();
-          var id = a.getAttribute('data-target');
-          setActive(id);
-          if (id === 'lettersGrid') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          } else {
-            var target = $(id);
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
+          toggleMore(false);
+          goTo(a.getAttribute('data-target'));
         });
+      });
+
+      navMore.addEventListener('click', function (e) {
+        e.stopPropagation();
+        toggleMore();
+      });
+
+      Array.prototype.forEach.call(moreSheet.querySelectorAll('[data-goto]'), function (b) {
+        b.addEventListener('click', function () {
+          toggleMore(false);
+          goTo(b.getAttribute('data-goto'));
+        });
+      });
+
+      document.addEventListener('click', function (e) {
+        if (moreSheet.classList.contains('open') && !e.target.closest('#moreSheet, #navMore')) toggleMore(false);
       });
 
       if ('IntersectionObserver' in window) {
         var sectionObserver = new IntersectionObserver(function (entries) {
           entries.forEach(function (en) { if (en.isIntersecting) setActive(en.target.id); });
         }, { rootMargin: '-45% 0px -45% 0px' });
-        ['lettersGrid', 'reasons', 'countdown', 'play'].forEach(function (id) {
+        MAIN_TARGETS.concat(MORE_TARGETS).forEach(function (id) {
           var n = $(id);
           if (n) sectionObserver.observe(n);
         });
@@ -2659,6 +3015,369 @@
 
       $('navBrand').textContent = CONFIG.herName + ' ♥';
 
+      /* =========================================================
+         Small storage helpers for the extra sections
+         ========================================================= */
+      function loadJSON(key, fallback) {
+        try {
+          var raw = window.localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch (e) { return fallback; }
+      }
+      function saveJSON(key, value) {
+        try { window.localStorage.setItem(key, JSON.stringify(value)); } catch (e) { /* ignore */ }
+      }
+
+      /* =========================================================
+         Today's note — changes once a day, by itself
+         ========================================================= */
+      var DAILY_NOTES = [
+        "Good morning, beautiful. Or good night. Either way, I'm thinking of you.",
+        "Drink some water, eat something good, and remember someone is crazy about you.",
+        "You're doing better than you think. I'm proud of you.",
+        "Fun fact: you're my favorite notification.",
+        "Today's forecast: 100% chance of me missing you.",
+        "If you're tired, rest. The world can wait. I'll wait too.",
+        "Your smile is my favorite thing I've never seen in person. Yet.",
+        "Reminder: you are not a burden. You're a blessing.",
+        "I hope something today makes you laugh as hard as my bad jokes do.",
+        "Every day is one day closer to us. Today counts too.",
+        "You look cute today. I don't even need to see it to know.",
+        "Be gentle with yourself today, love. You deserve it.",
+        "Today I'm grateful for you. Again. Like every day.",
+        "Somewhere far away, a guy named Getha is smiling because of you.",
+        "Wear the dress. Whatever the occasion. Trust me. 😏",
+        "You + me = the best kind of chemistry.",
+        "I love you more than yesterday and less than tomorrow.",
+        "Text me something. Anything. I just like hearing from you.",
+        "Don't go out to buy milk today. Stay with me. <33",
+        "Purple mommie, you have my whole heart. Handle with care.",
+        "Today is a good day to be loved by me. (Every day is.)",
+        "Your eyes are probably blue today. Or green. Either way, gorgeous.",
+        "If no one told you yet today: you're amazing.",
+        "I can't wait to hold your hand. Like, physically can't.",
+        "Naughty babe, behave today. Or don't. 😈",
+        "You make the distance feel small.",
+        "Take a deep breath. You've got this. And you've got me.",
+        "I choose you. Today and every day.",
+        "Thinking about the first time I'll hug you. It's going to be a long one.",
+        "Remember: simps of each other. Forever.",
+        "You are loved, deeply and loudly. Never forget it."
+      ];
+
+      (function renderToday() {
+        var now = new Date();
+        var day = Math.floor((Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(2026, 0, 1)) / 86400000);
+        var idx = ((day % DAILY_NOTES.length) + DAILY_NOTES.length) % DAILY_NOTES.length;
+        $('todayLabel').textContent = "Today's note · " + now.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        $('todayText').textContent = DAILY_NOTES[idx];
+      })();
+
+      /* =========================================================
+         Open when…
+         ========================================================= */
+      var OPEN_WHEN = [
+        {
+          emoji: '🥺', title: 'you miss me', effect: 'hearts',
+          content: "Hey you.\n\nIf you're reading this, you miss me. And I want you to know: I miss you too. Right now. Probably at this exact moment.\n\nClose your eyes and imagine me sitting next to you, my arm around your shoulders, your head resting on me. That's where I'd be if I could.\n\nNow text me. Even just a ♡. I promise I'll reply with way more than that.\n\nThe distance is temporary. Us isn't."
+        },
+        {
+          emoji: '🌙', title: "you can't sleep", effect: 'stars',
+          content: "Can't sleep, love?\n\nLet me keep you company for a minute.\n\nBreathe in slowly… and out. Imagine my fingers running through your hair, slow and soft. Imagine my voice, low and calm, telling you that everything can wait until tomorrow.\n\nYou did enough today. You are enough today.\n\nNow put the phone down, get comfy, and let me be the last thing on your mind tonight. Sweet dreams, Sia. ♡"
+        },
+        {
+          emoji: '🫂', title: 'you feel like a burden', effect: 'petals',
+          content: "Stop right there, my love.\n\nYou are not a burden. Not to me. Not ever.\n\nI know that little voice. I know it sounds convincing sometimes. But it's wrong, and I'm going to keep saying it until you believe me: loving you is not work. Caring for you is not a sacrifice. It's a privilege.\n\nYou once told me nobody ever really went into depth about how much they care. So here's the depth: I would choose you on your worst day, every single time.\n\nLet me carry this one for you."
+        },
+        {
+          emoji: '🌧️', title: 'your body is having a hard day', effect: 'petals',
+          content: "I'm so sorry today is hard, love.\n\nI wish I could be there. I'd bring you water, your favorite snack, a warm blanket, and I'd stay right next to you without asking you to explain anything.\n\nPlease rest. Listen to your body. You don't owe anyone productivity today, not even yourself.\n\nAnd when you feel a little better, send me a message. I want to know how you are. Always.\n\nI'm proud of how strong you are. But today, you don't have to be."
+        },
+        {
+          emoji: '😏', title: "you're feeling naughty", effect: 'kisses',
+          content: "Oh? Is that so, naughty babe? 😏\n\nThen let me make it worse.\n\nI'm thinking about you in one of your dresses. About pulling you closer by the waist. About whispering something in your ear that makes you bite your lip.\n\nI'm thinking about how you call me your good boy… and how badly I want to hear it in person.\n\nNow go text me. Tell me exactly what you're thinking. Don't you dare be shy. 🔥"
+        },
+        {
+          emoji: '💪', title: 'you doubt yourself', effect: 'sparks',
+          content: "Hey. Look at me.\n\nYou are so much more capable than you think. I've watched you handle hard days, hard news and hard feelings, and you always find your way through.\n\nThat doubt in your head? It doesn't know you like I do.\n\nI believe in you. Completely. Not because I have to, but because I've seen who you are.\n\nSo go do the thing, Sia. And if it doesn't work out, try again. I'll be cheering either way. Loudly."
+        },
+        {
+          emoji: '🎉', title: 'you had an amazing day', effect: 'twirl',
+          content: "YES! Tell me everything!\n\nSeriously, I want every detail. What happened, how you felt, what made you smile.\n\nI love seeing you happy. It's honestly one of my favorite things in the world.\n\nYou deserve every good day you get, and so many more.\n\nNow go send me a voice note and tell me all about it. I'm already smiling. 🥳"
+        },
+        {
+          emoji: '😂', title: 'you need a laugh', effect: 'twirl',
+          content: "Emergency laugh delivery, coming right up.\n\nReminder: we are two grown adults who can't have a normal conversation without getting flustered. Every. Single. Time. 😂\n\nAlso, official warning: if you ever go out to buy milk and don't come back, I will personally search every grocery store in America.\n\nSo pls don't went out to buy milk <33\n\nThere. You smiled. I know you did."
+        }
+      ];
+      var OW_KEY = 'love-open-when';
+      var owOpened = loadJSON(OW_KEY, []);
+
+      OPEN_WHEN.forEach(function (note) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'ow-card' + (owOpened.indexOf(note.title) !== -1 ? ' opened' : '');
+        b.innerHTML = '<span class="ow-emoji">' + note.emoji + '</span>' +
+          '<span class="ow-label">Open when</span>' +
+          '<span class="ow-title">' + note.title + '</span>';
+        b.addEventListener('click', function () {
+          if (owOpened.indexOf(note.title) === -1) {
+            owOpened.push(note.title);
+            saveJSON(OW_KEY, owOpened);
+            b.classList.add('opened');
+          }
+          openNote({
+            title: 'Open when ' + note.title,
+            content: note.content,
+            effect: note.effect
+          }, 'Open when… ' + note.emoji);
+        });
+        $('owGrid').appendChild(b);
+      });
+
+      /* =========================================================
+         Scratch card
+         ========================================================= */
+      var SCRATCH_MESSAGES = [
+        "You won: one kiss on the forehead… and one somewhere else. 😏",
+        "I'm thinking about you right now. Yes, right now.",
+        "Hidden message: you're the prettiest girl in every time zone.",
+        "Prize: a voice note from me. Text me \"scratch\" to claim it. 🎙️",
+        "You're stuck with me. No refunds. No exchanges. ♥",
+        "Secret: I smile like an idiot every time I see your name pop up.",
+        "Jackpot! One very long hug, redeemable the day we meet.",
+        "Plot twist: I love you even more than yesterday.",
+        "You won a free compliment: you're breathtaking. Even through a screen.",
+        "Today's prize: my whole heart. Oh wait, you already have that. 💘"
+      ];
+      var scratchCanvas = $('scratchCanvas');
+      var sctx = scratchCanvas.getContext('2d');
+      var scratchReady = !!(sctx && sctx.fillRect && sctx.arc);
+      var scratching = false;
+      var scratchRevealed = false;
+      var lastScratchIdx = -1;
+      var scratchMoves = 0;
+
+      function setupScratch() {
+        $('scratchWrap').classList.remove('revealed');
+        $('scratchAgain').hidden = true;
+        scratchRevealed = false;
+        var i;
+        do { i = Math.floor(Math.random() * SCRATCH_MESSAGES.length); }
+        while (SCRATCH_MESSAGES.length > 1 && i === lastScratchIdx);
+        lastScratchIdx = i;
+        $('scratchMsg').textContent = SCRATCH_MESSAGES[i];
+
+        if (!scratchReady) return;
+        var dpr = Math.min(window.devicePixelRatio || 1, 2);
+        var w = scratchCanvas.clientWidth || 320;
+        var h = scratchCanvas.clientHeight || 180;
+        scratchCanvas.width = Math.round(w * dpr);
+        scratchCanvas.height = Math.round(h * dpr);
+        sctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        sctx.globalCompositeOperation = 'source-over';
+
+        var cs = getComputedStyle(document.documentElement);
+        var grad = sctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, cs.getPropertyValue('--flap').trim() || '#E8899C');
+        grad.addColorStop(1, cs.getPropertyValue('--main-deep').trim() || '#A3324D');
+        sctx.fillStyle = grad;
+        sctx.fillRect(0, 0, w, h);
+
+        sctx.fillStyle = 'rgba(255, 255, 255, 0.22)';
+        sctx.font = '18px serif';
+        for (var k = 0; k < 28; k++) sctx.fillText('♥', rand(0, w), rand(16, h));
+
+        sctx.fillStyle = '#FFFFFF';
+        sctx.font = '600 20px "Plus Jakarta Sans", sans-serif';
+        sctx.textAlign = 'center';
+        sctx.textBaseline = 'middle';
+        sctx.fillText('Scratch me ♥', w / 2, h / 2);
+        sctx.textAlign = 'start';
+        sctx.textBaseline = 'alphabetic';
+      }
+
+      function scratchAt(e) {
+        if (!scratchReady || scratchRevealed) return;
+        var r = scratchCanvas.getBoundingClientRect();
+        sctx.globalCompositeOperation = 'destination-out';
+        sctx.beginPath();
+        sctx.arc(e.clientX - r.left, e.clientY - r.top, 22, 0, Math.PI * 2);
+        sctx.fill();
+      }
+
+      function checkScratch() {
+        if (!scratchReady || scratchRevealed) return;
+        try {
+          var data = sctx.getImageData(0, 0, scratchCanvas.width, scratchCanvas.height).data;
+          var clear = 0, total = 0;
+          for (var p = 3; p < data.length; p += 64) { total++; if (data[p] < 128) clear++; }
+          if (total && clear / total > 0.5) {
+            scratchRevealed = true;
+            $('scratchWrap').classList.add('revealed');
+            var r = $('scratchWrap').getBoundingClientRect();
+            heartBurst(r.left + r.width / 2, r.top + r.height / 2);
+            playEffect('sparks', true);
+            $('scratchAgain').hidden = false;
+          }
+        } catch (err) { /* ignore */ }
+      }
+
+      scratchCanvas.addEventListener('pointerdown', function (e) {
+        scratching = true;
+        try { scratchCanvas.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+        scratchAt(e);
+      });
+      scratchCanvas.addEventListener('pointermove', function (e) {
+        if (!scratching) return;
+        scratchAt(e);
+        if (++scratchMoves % 15 === 0) checkScratch();
+      });
+      ['pointerup', 'pointercancel', 'pointerleave'].forEach(function (ev) {
+        scratchCanvas.addEventListener(ev, function () {
+          if (!scratching) return;
+          scratching = false;
+          checkScratch();
+        });
+      });
+      $('scratchAgain').addEventListener('click', setupScratch);
+
+      // draw after the theme is applied and the fonts are in (both happen after this point)
+      setTimeout(function () {
+        setupScratch();
+        if (document.fonts && document.fonts.ready) {
+          document.fonts.ready.then(function () { if (!scratchMoves && !scratching) setupScratch(); });
+        }
+      }, 0);
+
+      /* =========================================================
+         Love coupons — redeem copies the coupon so she can send it
+         ========================================================= */
+      var COUPONS = [
+        { emoji: '💋', title: 'One very long kiss', desc: 'Valid the moment we meet. No time limit. Breathing breaks optional.' },
+        { emoji: '🫂', title: 'An all-day hug', desc: "I don't let go until you say so. Maybe not even then." },
+        { emoji: '👗', title: 'Dinner date, you in a dress', desc: 'I pick the place, you pick the dress. I lose my mind. Everyone wins.' },
+        { emoji: '🥞', title: 'Breakfast in bed', desc: 'Pancakes, coffee, kisses. You stay in bed, I do everything.' },
+        { emoji: '💆‍♀️', title: 'A long massage', desc: 'Back, shoulders, feet, wherever you want. No rush at all.' },
+        { emoji: '🏳️', title: 'You win any argument', desc: "Use it wisely. I'll say \"you're right, love\" and mean it." },
+        { emoji: '🫶', title: 'A day of me taking care of you', desc: 'Whatever you need, whenever you need it. That day is all yours.' },
+        { emoji: '😈', title: 'One night, you call the shots', desc: "Your rules. Your pace. I'm your good boy for the whole night." }
+      ];
+      var COUPON_KEY = 'love-coupons';
+      var redeemed = loadJSON(COUPON_KEY, {});
+
+      function copyText(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return fallbackCopy(text); });
+        }
+        return Promise.resolve(fallbackCopy(text));
+      }
+      function fallbackCopy(text) {
+        try {
+          var ta = document.createElement('textarea');
+          ta.value = text;
+          ta.setAttribute('readonly', '');
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          var ok = document.execCommand('copy');
+          document.body.removeChild(ta);
+          return ok;
+        } catch (e) { return false; }
+      }
+
+      COUPONS.forEach(function (c) {
+        var card = document.createElement('div');
+        card.className = 'coupon' + (redeemed[c.title] ? ' redeemed' : '');
+        card.innerHTML =
+          '<div class="coupon-emoji">' + c.emoji + '</div>' +
+          '<div class="coupon-title"></div>' +
+          '<div class="coupon-desc"></div>' +
+          '<button type="button" class="coupon-btn"></button>' +
+          (redeemed[c.title] ? '<span class="coupon-stamp">Redeemed</span>' : '');
+        card.querySelector('.coupon-title').textContent = c.title;
+        card.querySelector('.coupon-desc').textContent = c.desc;
+        var btn = card.querySelector('.coupon-btn');
+        btn.textContent = redeemed[c.title] ? 'Copy again' : 'Redeem ♥';
+
+        btn.addEventListener('click', function () {
+          var first = !redeemed[c.title];
+          if (first) {
+            redeemed[c.title] = new Date().toISOString();
+            saveJSON(COUPON_KEY, redeemed);
+            card.classList.add('redeemed');
+            var stamp = document.createElement('span');
+            stamp.className = 'coupon-stamp';
+            stamp.textContent = 'Redeemed';
+            card.appendChild(stamp);
+            btn.textContent = 'Copy again';
+            var r = btn.getBoundingClientRect();
+            heartBurst(r.left + r.width / 2, r.top + r.height / 2);
+          }
+          var msg = '🎟️ Love coupon: ' + c.title + ' ' + c.emoji + '\n' + c.desc + "\n\nI'm redeeming this, Getha. You owe me. ♥";
+          copyText(msg).then(function (ok) {
+            toast(ok ? 'Coupon copied! Now send it to Getha 💌' : 'Redeemed! Take a screenshot and send it to Getha 💌');
+          });
+        });
+        $('couponGrid').appendChild(card);
+      });
+
+      /* =========================================================
+         First date list — her checks are remembered
+         ========================================================= */
+      var DATE_ITEMS = [
+        'A hug that lasts at least a full minute',
+        'Our first kiss (the one that makes the world disappear)',
+        'Finally decide what color your eyes really are',
+        'Hear you say "Getha" in person',
+        'Walk somewhere holding hands',
+        'Take our first photo together',
+        'You in a dress, me losing my mind',
+        'Cook something together (and probably burn it)',
+        'Dance in the kitchen to a silly song',
+        'A lazy morning that never really ends',
+        'Say "Eu te amo" looking into your eyes',
+        'Make every single one of these letters come true'
+      ];
+      var DATE_KEY = 'love-date-list';
+      var dateChecked = loadJSON(DATE_KEY, []);
+
+      function updateDateProgress() {
+        var n = DATE_ITEMS.filter(function (t) { return dateChecked.indexOf(t) !== -1; }).length;
+        $('dateProgress').textContent = n === DATE_ITEMS.length
+          ? 'All ' + n + ' done. Time to make a new list. ♥'
+          : n + ' of ' + DATE_ITEMS.length + ' done · the best is yet to come';
+      }
+
+      DATE_ITEMS.forEach(function (text) {
+        var li = document.createElement('li');
+        var label = document.createElement('label');
+        label.className = 'date-item';
+        var input = document.createElement('input');
+        input.type = 'checkbox';
+        input.checked = dateChecked.indexOf(text) !== -1;
+        var span = document.createElement('span');
+        span.textContent = text;
+        label.appendChild(input);
+        label.appendChild(span);
+        li.appendChild(label);
+
+        input.addEventListener('change', function () {
+          var at = dateChecked.indexOf(text);
+          if (input.checked && at === -1) dateChecked.push(text);
+          if (!input.checked && at !== -1) dateChecked.splice(at, 1);
+          saveJSON(DATE_KEY, dateChecked);
+          updateDateProgress();
+          if (input.checked) {
+            var r = input.getBoundingClientRect();
+            heartBurst(r.left + r.width / 2, r.top + r.height / 2);
+          }
+        });
+        $('dateListItems').appendChild(li);
+      });
+      updateDateProgress();
+
       el.grid.addEventListener('click', function (e) {
         var card = e.target.closest('.envelope');
         if (!card) return;
@@ -2689,6 +3408,11 @@
       });
 
       document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && moreSheet.classList.contains('open')) {
+          toggleMore(false);
+          navMore.focus({ preventScroll: true });
+          return;
+        }
         if (game.classList.contains('show')) {
           if (e.key === 'Escape') closeGame();
           else if (g && e.key === 'ArrowLeft') { g.keys.left = true; e.preventDefault(); }
@@ -2792,7 +3516,7 @@
       /* ---------- Little hearts wherever she taps ---------- */
       document.addEventListener('pointerdown', function (e) {
         if (!intro.classList.contains('hide')) return;
-        if (e.target.closest('.envelope, button, a, .navbar, .theme-picker, .game, .finale')) return;
+        if (e.target.closest('.envelope, button, a, label, .navbar, .more-sheet, .scratch-wrap, .theme-picker, .game, .finale')) return;
         heartBurst(e.clientX, e.clientY);
       });
 
